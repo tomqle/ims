@@ -1,0 +1,7 @@
+{"properties": [
+  {
+    "name": "jwt.token.secret",
+    "type": "java.lang.String",
+    "description": "JWT secret for generating auth tokens to access ims api"
+  }
+]}

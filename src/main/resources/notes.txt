@@ -1,0 +1,39 @@
+Batch has the following states:
+ 1) Purchased
+ 2) Sold
+ 3) Received
+ 4) Stored
+ 5) Picked
+ 6) Shipped
+ 
+
+ 1) A PurchaseOrderLine is sold by many SalesOrderLines
+ 2) A PurchaseOrderLine is received into many Batches
+ 3) A Batch is allocated into many SalesOrderLines
+ 
+Scenarios
+ I) Sales order is placed
+ 	1) Check for existing batches of product
+ 		a) If exists, get FIFO and allocate batch to sales order line. When shipped out, delete batch
+ 		b) If does not exist, new purchase order will need to be placed against the unlinked sales order lines
+
+ II) Purchase order is placed, but stock has not arrived
+ 	1) Stock is available to sell
+ 		a) When sales order is placed, allocate stock against the purchase order
+
+ III) Purchase order is received
+ 	1) Batches that have been allocated (sold) should go to shipping to get shipped out
+ 	2) Batches that have not been allocated will need to be stocked on shelves
+
+ End points
+  1) PurchaseOrder
+  	1) Create
+  	2) Update
+  	3) Receive
+  2) Sales Order
+  	1) Create
+  	2) Update
+  3) Product
+  	1) Create
+  	2) Update
+  	3) View stock and sales history
