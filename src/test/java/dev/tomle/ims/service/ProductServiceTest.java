@@ -1,18 +1,11 @@
 package dev.tomle.ims.service;
-
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import dev.tomle.ims.application.product.impl.ProductServiceImpl;
-import dev.tomle.ims.domain.model.product.Product;
-import dev.tomle.ims.infrastructure.product.repository.ProductRepository;
+import dev.tomle.ims.model.Product;
+import dev.tomle.ims.model.repository.ProductRepository;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProductServiceTest {
 

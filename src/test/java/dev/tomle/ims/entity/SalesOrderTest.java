@@ -1,26 +1,22 @@
 package dev.tomle.ims.entity;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import dev.tomle.ims.domain.model.order.Batch;
-import dev.tomle.ims.domain.model.order.SalesOrder;
-import dev.tomle.ims.domain.model.order.SalesOrderLine;
-import dev.tomle.ims.domain.model.product.Product;
-import dev.tomle.ims.infrastructure.order.repository.BatchRepository;
-import dev.tomle.ims.infrastructure.order.repository.SalesOrderLineRepository;
-import dev.tomle.ims.infrastructure.order.repository.SalesOrderRepository;
-import dev.tomle.ims.infrastructure.product.repository.ProductRepository;
+import dev.tomle.ims.model.Batch;
+import dev.tomle.ims.model.Product;
+import dev.tomle.ims.model.SalesOrder;
+import dev.tomle.ims.model.SalesOrderLine;
+import dev.tomle.ims.model.repository.BatchRepository;
+import dev.tomle.ims.model.repository.ProductRepository;
+import dev.tomle.ims.model.repository.SalesOrderLineRepository;
+import dev.tomle.ims.model.repository.SalesOrderRepository;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class SalesOrderTest {
 

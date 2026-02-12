@@ -1,13 +1,12 @@
 package dev.tomle.ims.entity;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -15,22 +14,20 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import dev.tomle.ims.application.order.PurchaseOrderService;
-import dev.tomle.ims.domain.model.order.Batch;
-import dev.tomle.ims.domain.model.order.PurchaseOrderLine;
-import dev.tomle.ims.domain.model.order.exception.OverReceiveException;
-import dev.tomle.ims.domain.model.order.exception.PurchaseOrderSaveException;
-import dev.tomle.ims.domain.model.order.exception.ReceivedProductMismatchException;
-import dev.tomle.ims.domain.model.product.Product;
-import dev.tomle.ims.domain.model.product.ProductStatus;
-import dev.tomle.ims.infrastructure.order.repository.PurchaseOrderLineRepository;
-import dev.tomle.ims.infrastructure.order.repository.PurchaseOrderRepository;
-import dev.tomle.ims.infrastructure.product.repository.ProductRepository;
-import dev.tomle.ims.domain.model.order.PurchaseOrder;
+import dev.tomle.ims.model.Batch;
+import dev.tomle.ims.model.Product;
+import dev.tomle.ims.model.ProductStatus;
+import dev.tomle.ims.model.PurchaseOrder;
+import dev.tomle.ims.model.PurchaseOrderLine;
+import dev.tomle.ims.model.exception.OverReceiveException;
+import dev.tomle.ims.model.exception.PurchaseOrderSaveException;
+import dev.tomle.ims.model.exception.ReceivedProductMismatchException;
+import dev.tomle.ims.model.repository.ProductRepository;
+import dev.tomle.ims.model.repository.PurchaseOrderLineRepository;
+import dev.tomle.ims.model.repository.PurchaseOrderRepository;
+import dev.tomle.ims.service.PurchaseOrderService;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class PurchaseOrderTest {
 	
@@ -187,29 +184,31 @@ public class PurchaseOrderTest {
 		assert(!purchaseOrderLine.canReceive(batch));
 	}
 	
-	@Test(expected = ReceivedProductMismatchException.class)
-	public void testValidateReceive() throws PurchaseOrderSaveException {
-		Product product1 = new Product();
-		product1.setId(1);
-		product1.setSku("TEST-SKU-1");
-		product1.setName("Test Product 1");
-		product1.setProductStatusId(1);
-		Product product2 = new Product();
-		product2.setId(2);
-		product2.setSku("TEST-SKU-2");
-		product2.setName("Test Product 2");
-		product2.setProductStatusId(1);
+	@Test
+	public void testValidateReceive() {
+        assertThrows(ReceivedProductMismatchException.class, () -> {
+            Product product1 = new Product();
+            product1.setId(1);
+            product1.setSku("TEST-SKU-1");
+            product1.setName("Test Product 1");
+            product1.setProductStatusId(1);
+            Product product2 = new Product();
+            product2.setId(2);
+            product2.setSku("TEST-SKU-2");
+            product2.setName("Test Product 2");
+            product2.setProductStatusId(1);
 
-		PurchaseOrderLine purchaseOrderLine = new PurchaseOrderLine();
-		purchaseOrderLine.setQty(10);
-		purchaseOrderLine.setQtyReceived(0);
-		purchaseOrderLine.setProduct(product1);
-		Batch batch = new Batch();
-		batch.setQty(10);
-		batch.setProduct(product2);
-		
-		purchaseOrderLine.validateReceive(batch);
-	}
+            PurchaseOrderLine purchaseOrderLine = new PurchaseOrderLine();
+            purchaseOrderLine.setQty(10);
+            purchaseOrderLine.setQtyReceived(0);
+            purchaseOrderLine.setProduct(product1);
+            Batch batch = new Batch();
+            batch.setQty(10);
+            batch.setProduct(product2);
+
+            purchaseOrderLine.validateReceive(batch);
+        });
+    }
 	
 	@Test
 	public void testPurchaseOrderLineReceive() throws PurchaseOrderSaveException {
@@ -230,18 +229,20 @@ public class PurchaseOrderTest {
 		assertEquals(qty, purchaseOrderLine.getQtyReceived());
 	}
 
-	@Test(expected = OverReceiveException.class)
-	public void testPurchaseOrderLineOverReceive() throws PurchaseOrderSaveException {
-		long lineNumber = 1;
-		long qty = 5;
-		long qtyReceived = 2;
-		long qtyToReceive = 4;
-		double cost = 1.0;
+	@Test
+	public void testPurchaseOrderLineOverReceive() {
+        assertThrows(OverReceiveException.class, () -> {
+            long lineNumber = 1;
+            long qty = 5;
+            long qtyReceived = 2;
+            long qtyToReceive = 4;
+            double cost = 1.0;
 
-		PurchaseOrderLine purchaseOrderLine = new PurchaseOrderLine(lineNumber, null, null, qty, cost, null, null);
-		purchaseOrderLine.setQtyReceived(qtyReceived);
-		purchaseOrderLine.addBatch(new Batch(qtyReceived, null, null));
-		Batch batch = new Batch(qtyToReceive, null, null);
-		purchaseOrderLine.receive(batch);
-	}
+            PurchaseOrderLine purchaseOrderLine = new PurchaseOrderLine(lineNumber, null, null, qty, cost, null, null);
+            purchaseOrderLine.setQtyReceived(qtyReceived);
+            purchaseOrderLine.addBatch(new Batch(qtyReceived, null, null));
+            Batch batch = new Batch(qtyToReceive, null, null);
+            purchaseOrderLine.receive(batch);
+        });
+    }
 }

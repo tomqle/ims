@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import dev.tomle.ims.infrastructure.audit.AuditorAwareImpl;
+import dev.tomle.ims.audit.AuditorAwareImpl;
 
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")

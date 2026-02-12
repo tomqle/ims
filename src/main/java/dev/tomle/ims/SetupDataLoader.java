@@ -9,12 +9,12 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import dev.tomle.ims.domain.model.security.Privilege;
-import dev.tomle.ims.domain.model.security.Role;
-import dev.tomle.ims.domain.model.security.User;
-import dev.tomle.ims.infrastructure.security.repository.PrivilegeRepository;
-import dev.tomle.ims.infrastructure.security.repository.RoleRepository;
-import dev.tomle.ims.infrastructure.security.repository.UserRepository;
+import dev.tomle.ims.model.security.Privilege;
+import dev.tomle.ims.model.security.Role;
+import dev.tomle.ims.model.security.User;
+import dev.tomle.ims.model.security.repository.PrivilegeRepository;
+import dev.tomle.ims.model.security.repository.RoleRepository;
+import dev.tomle.ims.model.security.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
 @Component
